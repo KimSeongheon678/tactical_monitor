@@ -20,7 +20,7 @@
 struct flightmode
 {
     int flightmode;
-    float value;   
+    int UAVNum;   
 }fm;
 
 struct healthCheck
@@ -182,7 +182,7 @@ int main(void)
     servaddr11.sin_port=htons(10100);
 
     dronesock11 = socket(AF_INET, SOCK_DGRAM, 0);
-    struct timeval optVal ={1,0};
+    struct timeval optVal ={3,0};
     int optLen = sizeof(optVal);
     setsockopt(dronesock11,SOL_SOCKET,SO_RCVTIMEO,&optVal,optLen);
     bind(dronesock11,(struct sockaddr *)&servaddr11,sizeof(servaddr11));
@@ -260,6 +260,7 @@ int main(void)
         cout<<"chose flight mode: "<<endl;
         cin>> mode;
         fm.flightmode = mode;
+        fm.UAVNum = state_UAV1+state_UAV2+state_UAV3;
         
 
         int retval1 = sendto(socket1,(char *)&fm, sizeof(fm),0, (struct sockaddr *)&servaddr1,sizeof(servaddr1));
